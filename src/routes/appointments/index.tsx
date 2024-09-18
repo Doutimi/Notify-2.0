@@ -6,21 +6,6 @@ import { useEffect, useState } from "react";
 import { Fetch } from "@/lib/api";
 import type { AppointmentsData } from "@/types";
 
-const appointments = [
-  {
-    name: "Doctor Appointment",
-    date: new Date(2024, 12, 1),
-  },
-  {
-    name: "Dentist Appointment",
-    date: new Date(2024, 11, 4),
-  },
-
-  {
-    name: "Eye Doctor Appointment",
-    date: new Date(2024, 10, 5),
-  },
-];
 async function FetchEntries(){
   let data=await Fetch<AppointmentsData[]>(`http://127.0.0.1:3000/appointments/list`);
   return data
