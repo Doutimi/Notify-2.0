@@ -1,72 +1,87 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from '@/components/Header';
+import { Input } from '@/components/Input';
+import { Link } from "@tanstack/react-router";
+import type { FormEvent } from "react";
+import "../bills.css";
 
-const NewBill = () => {
+
+const HandleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+  let data = Object.fromEntries(formData);
+  let id=(Math.random()*10000).toFixed(0);
+  data.id=id
+  console.log(data);
+
+  let response = await fetch("http://127.0.0.1:3000/bills/new",{
+    method:"POST",
+    body:JSON.stringify(data),
+    headers:{
+      "Content-Type":"application/json"
+    }
+  })
+
+  if(response.ok) window.location.href=`http://${window.location.host}/bills`
+
+}
+
+export default function NewBill() {
   return (
     <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li className="active">
-              <a href="../">Bills</a>
-            </li>
-            <li>
-              <a href="../../appointments/index.html">Appointments</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header activeTab='bills' /> 
       <h2>New Bill</h2>
       <section className="form-container">
-        <form id="myForm">
-          <label htmlFor="name">Name of bill</label>
-          <input
-            className="form-field"
+        <form id="bills" onSubmit={HandleSubmit}>
+          <Input
+            name="name"
+            title="Name of bill"
+            htmlFor="name"
             type="text"
             id="name"
-            name="name"
             placeholder="Spotify"
             required
           />
-          <br />
-          <label htmlFor="amount">Amount due</label>
-          <br />
-          <input
-            className="form-field"
+          <Input
+            name="amount"
+            title="Amount due"
+            htmlFor="amount"
             type="number"
             id="amount"
-            name="amount"
             placeholder="1400"
             required
-          />
-          <br />
-          <label htmlFor="date">Due date</label>
-          <br />
-          <input
-            className="form-field"
+          />          
+          <Input
+            name="date"
+            title="Due Date"
+            htmlFor="date"
             type="date"
             id="date"
-            name="date"
             required
           />
-          <br />
+
           <label>Recurrence:</label>
           <span>
+            {/* <Input/> */}
             <input type="radio" id="yearly" name="frequency" value="Yearly" />
-            <label htmlFor="yearly"> Yearly</label>
+            <label htmlFor="option1"> Yearly</label>
+
             <input type="radio" id="monthly" name="frequency" value="Monthly" />
-            <label htmlFor="monthly"> Monthly</label>
+            <label htmlFor="option2"> Monthly</label>
+
             <input type="radio" id="weekly" name="frequency" value="Weekly" />
-            <label htmlFor="weekly"> Weekly</label>
+            <label htmlFor="option3"> Weekly</label>
+
             <input type="radio" id="none" name="frequency" value="None" />
-            <label htmlFor="none"> None</label>
+            <label htmlFor="option4"> None</label>
             <br />
           </span>
 
           <div className="btn_frame container">
             <button type="submit">Save</button>
+            <Link to="/bills">
+              <button type="button">Cancel</button>            
+            </Link>
             <button type="reset">Clear</button>
           </div>
         </form>

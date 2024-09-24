@@ -47,6 +47,7 @@ export default function New() {
       async function FetchData(){
         let response =await fetch("http://localhost:3000" +window.location.pathname+"/data") 
         let data:BillsData=await response.json();
+        console.log (data)
         setData(data);
         setFrequency(data.frequency)
       }
@@ -70,9 +71,9 @@ export default function New() {
             required
           />
           <Input
-            name="name"
+            name="amount"
             title="Amount due"
-            htmlFor="name"
+            htmlFor="amount"
             type="number"
             id="amount"
             placeholder="1400"

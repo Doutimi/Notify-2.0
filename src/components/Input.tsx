@@ -5,6 +5,7 @@ type BaseProp = {
   required?: boolean;
   name: string;
   placeholder?: string;
+  defaultValue?: string;
 };
 
 type NewInputProp = {
@@ -12,7 +13,7 @@ type NewInputProp = {
 } & BaseProp;
 
 export function Input(prop: NewInputProp) {
-  const { type, id, required, htmlFor, name, placeholder, title } = prop;
+  const { type, id, required, htmlFor, name, placeholder, title, defaultValue } = prop;
   return (
     <>
       <label htmlFor={htmlFor}>{title}</label>
@@ -23,6 +24,7 @@ export function Input(prop: NewInputProp) {
         name={name}
         required={required}
         placeholder={placeholder}
+        defaultValue={defaultValue}
       />
     </>
   );

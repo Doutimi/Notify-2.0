@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
+import { Link } from "@tanstack/react-router";
 import { Input } from "@/components/Input";
 import "../appointments.css";
 import type { FormEvent } from "react";
@@ -93,6 +94,9 @@ export default function New() {
 
           <div className="btn_frame container">
             <button type="submit">Save</button>
+            <Link to="/appointments">
+              <button type="button">Cancel</button>            
+            </Link>
             <button type="reset">Clear</button>
           </div>
         </form>

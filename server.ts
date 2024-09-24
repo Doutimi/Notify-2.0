@@ -11,7 +11,7 @@ import RouteBills from "./server-routes/route-bills";
 
 const app = express();
 const port = 3000;
-//*****note all midleware should be clled before the routing functions***
+//*****note all midleware should be called before the routing functions***
 app.use(cors())
 // Middleware to parse JSON body
 app.use(bodyParser.json());
