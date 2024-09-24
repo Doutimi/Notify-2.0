@@ -20,6 +20,8 @@ import { Route as AuthSignUpIndexImport } from './routes/auth/sign-up/index'
 import { Route as AuthLoginIndexImport } from './routes/auth/login/index'
 import { Route as AuthEmailLoginIndexImport } from './routes/auth/email-login/index'
 import { Route as AppointmentsNewIndexImport } from './routes/appointments/new/index'
+import { Route as BillsEditIdIndexImport } from './routes/bills/edit/$id/index'
+import { Route as AppointmentsEditIdIndexImport } from './routes/appointments/edit/$id/index'
 
 // Create/Update Routes
 
@@ -65,6 +67,16 @@ const AuthEmailLoginIndexRoute = AuthEmailLoginIndexImport.update({
 
 const AppointmentsNewIndexRoute = AppointmentsNewIndexImport.update({
   path: '/appointments/new/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BillsEditIdIndexRoute = BillsEditIdIndexImport.update({
+  path: '/bills/edit/$id/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AppointmentsEditIdIndexRoute = AppointmentsEditIdIndexImport.update({
+  path: '/appointments/edit/$id/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -135,6 +147,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillsNewIndexImport
       parentRoute: typeof rootRoute
     }
+    '/appointments/edit/$id/': {
+      id: '/appointments/edit/$id/'
+      path: '/appointments/edit/$id'
+      fullPath: '/appointments/edit/$id'
+      preLoaderRoute: typeof AppointmentsEditIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/bills/edit/$id/': {
+      id: '/bills/edit/$id/'
+      path: '/bills/edit/$id'
+      fullPath: '/bills/edit/$id'
+      preLoaderRoute: typeof BillsEditIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -150,6 +176,8 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof AuthSignUpIndexRoute
   '/bills/edit': typeof BillsEditIndexRoute
   '/bills/new': typeof BillsNewIndexRoute
+  '/appointments/edit/$id': typeof AppointmentsEditIdIndexRoute
+  '/bills/edit/$id': typeof BillsEditIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -162,6 +190,8 @@ export interface FileRoutesByTo {
   '/auth/sign-up': typeof AuthSignUpIndexRoute
   '/bills/edit': typeof BillsEditIndexRoute
   '/bills/new': typeof BillsNewIndexRoute
+  '/appointments/edit/$id': typeof AppointmentsEditIdIndexRoute
+  '/bills/edit/$id': typeof BillsEditIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -175,6 +205,8 @@ export interface FileRoutesById {
   '/auth/sign-up/': typeof AuthSignUpIndexRoute
   '/bills/edit/': typeof BillsEditIndexRoute
   '/bills/new/': typeof BillsNewIndexRoute
+  '/appointments/edit/$id/': typeof AppointmentsEditIdIndexRoute
+  '/bills/edit/$id/': typeof BillsEditIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -189,6 +221,8 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/bills/edit'
     | '/bills/new'
+    | '/appointments/edit/$id'
+    | '/bills/edit/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,6 +234,8 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/bills/edit'
     | '/bills/new'
+    | '/appointments/edit/$id'
+    | '/bills/edit/$id'
   id:
     | '__root__'
     | '/'
@@ -211,6 +247,8 @@ export interface FileRouteTypes {
     | '/auth/sign-up/'
     | '/bills/edit/'
     | '/bills/new/'
+    | '/appointments/edit/$id/'
+    | '/bills/edit/$id/'
   fileRoutesById: FileRoutesById
 }
 
@@ -224,6 +262,8 @@ export interface RootRouteChildren {
   AuthSignUpIndexRoute: typeof AuthSignUpIndexRoute
   BillsEditIndexRoute: typeof BillsEditIndexRoute
   BillsNewIndexRoute: typeof BillsNewIndexRoute
+  AppointmentsEditIdIndexRoute: typeof AppointmentsEditIdIndexRoute
+  BillsEditIdIndexRoute: typeof BillsEditIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -236,6 +276,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignUpIndexRoute: AuthSignUpIndexRoute,
   BillsEditIndexRoute: BillsEditIndexRoute,
   BillsNewIndexRoute: BillsNewIndexRoute,
+  AppointmentsEditIdIndexRoute: AppointmentsEditIdIndexRoute,
+  BillsEditIdIndexRoute: BillsEditIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -258,7 +300,9 @@ export const routeTree = rootRoute
         "/auth/login/",
         "/auth/sign-up/",
         "/bills/edit/",
-        "/bills/new/"
+        "/bills/new/",
+        "/appointments/edit/$id/",
+        "/bills/edit/$id/"
       ]
     },
     "/": {
@@ -287,6 +331,12 @@ export const routeTree = rootRoute
     },
     "/bills/new/": {
       "filePath": "bills/new/index.tsx"
+    },
+    "/appointments/edit/$id/": {
+      "filePath": "appointments/edit/$id/index.tsx"
+    },
+    "/bills/edit/$id/": {
+      "filePath": "bills/edit/$id/index.tsx"
     }
   }
 }

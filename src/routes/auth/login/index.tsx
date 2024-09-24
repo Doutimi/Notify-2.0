@@ -32,7 +32,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1 className="text-3xl font-medium">Sign Up</h1>
+      <h1 className="text-3xl font-medium">Login</h1>
       <div className="flex justify-center max-w-md flex-col mx-auto">
         <Input
           name="email"
