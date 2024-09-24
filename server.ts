@@ -4,20 +4,27 @@ import path from "node:path"
 import fs from "fs"
 import { AppointmentsData, BillsData } from "./types";
 import cors from "cors"
+import RouteAppointments from "./server-routes/route-appointments";
+import { ReadFile } from "./server-routes/functions";
+import RouteBills from "./server-routes/route-bills";
+
 
 const app = express();
 const port = 3000;
-
+//*****note all midleware should be clled before the routing functions***
+app.use(cors())
 // Middleware to parse JSON body
 app.use(bodyParser.json());
-app.use(cors())
 
+//*****note: do not call routing fucntions before midleware***
+RouteAppointments(app)
+RouteBills(app)
 // Serve the HTML form
 // app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Path to the JSON file
 const billsFilePath ='./data/bills.json';
-const appointmentsFilePath ='./data/appointments.json';
+// const appointmentsFilePath ='./data/appointments.json';
 
 //endpoint to get bills list
 app.get("/bills/get_list",(req,res)=>{
@@ -41,11 +48,9 @@ app.patch("/bills/edit/:id/save",(req,res)=>{
     let id=req.params.id
     console.log({message:`Save request for ${id} received`})
     
-    /**@type {BillsData} */
     let editedBillData={...req.body,id};
 
-    /**@type {BillsData[]} */
-    let allBillsData=ReadFile(billsFilePath,[])
+    let allBillsData=ReadFile<BillsData[]>(billsFilePath,[])
 
     let entryToEdit=allBillsData.find(item=>item.id===id);
     if(!entryToEdit){
@@ -81,20 +86,13 @@ app.delete("/bills/edit/:id",(req,res)=>{
 })
 
 
-//endpoint to get appointments list
-app.get("/appointments/list",(req,res)=>{
-    let appointmentsData:AppointmentsData[]=ReadFile(appointmentsFilePath,[]);
-    console.log({appointmentsData})
-    res.send(appointmentsData)
-})
 
 // Endpoint to handle bill form submission
 app.post('/bills/new/save', (req, res) => {
-    /**@type {BillsData} */
-    const billsEntry = req.body
+    const billsEntry:BillsData = req.body
     console.log({body:req.body})
 
-    let historyData=ReadFile(billsFilePath,[])
+    let historyData=ReadFile<BillsData[]>(billsFilePath,[])
     //append the new data receive int he http body
     historyData.push(billsEntry)
 
@@ -102,37 +100,8 @@ app.post('/bills/new/save', (req, res) => {
     res.send({message:"bills saved successfully"});
 });
 
-// Endpoint to handle appointment form submission
-// app.post('/appointments/new/save', (req, res) => {
-app.post('/appointments/new', (req, res) => {
-    const appointmentsEntry:AppointmentsData = req.body
-    console.log({appointmentBody:req.body})
-
-    let historyData=ReadFile(appointmentsFilePath,[])
-    //append the new data receive int he http body
-    historyData.push(appointmentsEntry)
-
-    fs.writeFileSync(appointmentsFilePath,JSON.stringify(historyData))
-    res.send({message:"Appointment saved successfully"});
-});
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
 
-/**
- * 
- * @param {string} filepath 
- * @param {any} defaultValue a JSON serialiable object value
- */
-function ReadFile(filepath,defaultValue){
-    //create the file if it doesnt exist and initialise with an empty array
-    if(!fs.existsSync(filepath)) fs.writeFileSync(filepath,JSON.stringify(defaultValue));
-
-    let historyData =JSON.parse(fs.readFileSync(filepath).toString());
-
-    //if file is not an array, discard old content,
-    if(!Array.isArray(historyData)) historyData=defaultValue;
-
-    return historyData
-}

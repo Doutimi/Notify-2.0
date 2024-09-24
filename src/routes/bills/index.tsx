@@ -1,49 +1,53 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/Header";
+import { Fetch } from "@/lib/api";
+import styles from "./bills.module.css";
+import dayjs from "dayjs";
+import type { BillsData } from "@/types";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
-const bills = [
-  {
-    name: "Rent",
-    date: new Date(2024, 12, 1),
-  },
-  {
-    name: "Electricity",
-    date: new Date(2024, 11, 4),
-  },
-  {
-    name: "Water",
-    date: new Date(2024, 10, 5),
-  },
-];
 
-const Bills = () => {
+async function FetchEntries(){
+  let data=await Fetch<BillsData[]>(`http://127.0.0.1:3000/bills/list`);
+  return data
+
+//let data=data.sort((a,b)=>{
+//   let dateA=new Date(a.date)
+//   let dateB=new Date(b.date);
+//   return (dateA.getTime()-dateB.getTime()) ;
+// });
+}
+
+export default function Bills() {
+  let [bills,setEntries]=useState<BillsData[]>([])
+  useEffect(()=>{
+    FetchEntries().then((data)=>{
+      console.log(data)
+      setEntries(data)
+    })
+  },[]);
+
+  let entries=bills.map(({ name, date,id }, index) => (
+    <div className={styles["list-item"]} key={index}>
+      <a href={`/bills/edit/${id}`}>
+        <span className={styles["item-name"]}>{name}</span>
+      </a>
+      <span className={styles["item-date"]}>
+        {dayjs(date).format("MM/DD/YYYY")}
+      </span>
+    </div>
+  ))
   return (
     <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li className="active">Bills</li>
-            <li>
-              <a href="../appointments/">Appointments</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header activeTab="bills" />
       <h2>Bills</h2>
-      <section className="container" id="container">
-        {bills.map(({ name, date }) => (
-          <div className="list-item list-none">
-            <span className="bill-name">{name}</span>
-            <span className="bill-date">{date.toDateString()}</span>
-          </div>
-        ))}
+      <section className={styles.container} id={styles.container}>
+        {entries}
       </section>
-      <div className="frame container">
-        <a href={`${window.location.href}/new`}>
+      <div className={`${styles.frame} ${styles.container}`}>
+        <Link to="/bills/new">
           <button type="button">New Bill</button>
-        </a>
+        </Link>
       </div>
     </>
   );
@@ -52,3 +56,4 @@ const Bills = () => {
 export const Route = createFileRoute("/bills/")({
   component: Bills,
 });
+
