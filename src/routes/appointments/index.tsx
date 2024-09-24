@@ -19,9 +19,11 @@ export default function Appointments() {
     })
   },[]);
 
-  let entries=entriesData.map(({ name, date },index) => (
+  let entries=entriesData.map(({ name, date,id },index) => (
     <div className={styles["list-item"]} key={index}>
-      <span className={styles["item-name"]}>{name}</span>
+      <a href={`/appointments/edit/${id}`}>
+        <span className={styles["item-name"]}>{name}</span>
+      </a>
       <span className={styles["item-date"]}>
         {dayjs(date).format("MM/DD/YYYY")}
       </span>
@@ -30,7 +32,7 @@ export default function Appointments() {
 
   return (
     <>
-      <Header link="../bills/" />
+      <Header activeTab="appointments" />
       <h2>Appointments</h2>
       <section className={styles.container} id={styles.container}>
         {entries}

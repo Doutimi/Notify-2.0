@@ -36,9 +36,9 @@ li:hover {
     background-color: cornsilk;
 }
 
-.active {
+/* .active {
     background-color: #FDBF8B;
-}
+} */
 
 h2{
     padding: 1px;
@@ -95,6 +95,10 @@ h2{
     width: 60%
 }
 
+.item-name:hover{
+    color:#e69757;
+}
+
 .bill-date{
     /*display:inline-block; */
     float: right;
@@ -104,7 +108,7 @@ h2{
 }
 
 .form-field{
-    width: 90%;
+    width: 100%;
     padding: 0.5rem 1rem;
     border: 2px solid grey;
     border-radius: 0.5rem;
@@ -136,6 +140,7 @@ label{
     margin: 0 auto;
     margin-top: 18px; 
     display: flex;
+    justify-content: space-between;
     padding: 0;
 }
 
@@ -146,7 +151,7 @@ button{
     font-family: Niveau grotesk;
     font-size:14pt;
     cursor: pointer;
-    background-color: inherit;
+    background-color: #F0EDEB;
     margin-top: 0.3em;
 }
 

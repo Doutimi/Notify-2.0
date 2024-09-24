@@ -78,6 +78,10 @@ h2{
     width: 60%
 }
 
+.item-name:hover{
+    color:#e69757;
+}
+
 .item-date{
     /*display:inline-block; */
     float: right;

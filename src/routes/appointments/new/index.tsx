@@ -28,7 +28,7 @@ const HandleSubmit = async(e: FormEvent<HTMLFormElement>) => {
 export default function New() {
   return (
     <>
-      <Header link="../../bills" />
+      <Header activeTab="appointments" />
       <h2>New Appointment</h2>
       <section className="form-container">
         <form id="appointments" onSubmit={HandleSubmit}>
