@@ -31,16 +31,7 @@ const Home = () => {
         </div>
         <em className={styles["subheader-em"]}>...never forget appointments or due bills</em>
         <div className={styles["footer"]}>
-          {session ? (
-            <>
-              <Link to="/auth/sign-up">
-                <button type="button">Register</button>
-              </Link>
-              <Link to="/auth/login">
-                <button type="button">Login</button>
-              </Link>
-            </>
-          ) : (
+          {session && (
             <>
               <Link to="/appointments">
                 <button type="button">Appointments</button>
@@ -49,7 +40,16 @@ const Home = () => {
                 <button type="button"> Bills</button>
               </Link>
             </>
-          )}
+          )
+          // (<>
+          //     <Link to="/auth/sign-up">
+          //       <button type="button">Register</button>
+          //     </Link>
+          //     <Link to="/auth/login">
+          //       <button type="button">Login</button>
+          //     </Link>
+          //   </> ) : 
+            }
         </div>
       </div>
     </>
