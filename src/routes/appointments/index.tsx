@@ -5,9 +5,10 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Fetch } from "@/lib/api";
 import type { AppointmentsData } from "@/types";
+import { appServerURl } from "@/address";
 
 async function FetchEntries(){
-  let data=await Fetch<AppointmentsData[]>(`http://127.0.0.1:3000/appointments/list`);
+  let data=await Fetch<AppointmentsData[]>(`${appServerURl}/appointments/list`);
   return data
 }
 export default function Appointments() {

@@ -6,8 +6,8 @@ import { Icons } from '@/components/Icons'
 import '../../appointments.css'
 import { useEffect, useState, type FormEvent } from 'react'
 import type { AppointmentsData } from '@/types'
+import { appServerURl } from '@/address';
 
-const serverURL="http://localhost:3000"
 
 const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault()
@@ -15,7 +15,7 @@ const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   let value = Object.fromEntries(formData)
   console.log({ value })
 
-  let response = await fetch(serverURL + window.location.pathname, {
+  let response = await fetch(appServerURl + window.location.pathname, {
     method: 'PATCH',
     body: JSON.stringify(value),
     headers: {
@@ -32,7 +32,7 @@ const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 async function HandleDelete(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
   e.preventDefault()
   // console.log("got here");
-  let response = await fetch(serverURL +window.location.pathname, {
+  let response = await fetch(appServerURl +window.location.pathname, {
     method: 'DELETE',
   })
 
@@ -45,7 +45,7 @@ export default function New() {
   let [frequency,setFrequency]=useState<AppointmentsData['frequency']>()
   useEffect(()=>{
     async function FetchData(){
-      let response =await fetch("http://localhost:3000" +window.location.pathname+"/data") 
+      let response =await fetch(appServerURl +window.location.pathname+"/data") 
       let data:AppointmentsData=await response.json();
       setData(data);
       setFrequency(data.frequency)

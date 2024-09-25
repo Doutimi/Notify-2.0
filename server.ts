@@ -26,79 +26,79 @@ RouteBills(app)
 const billsFilePath ='./data/bills.json';
 // const appointmentsFilePath ='./data/appointments.json';
 
-//endpoint to get bills list
-app.get("/bills/get_list",(req,res)=>{
-    let billsData:BillsData[]=ReadFile(billsFilePath,[])
-    res.send(billsData)
-})
+// //endpoint to get bills list
+// app.get("/bills/get_list",(req,res)=>{
+//     let billsData:BillsData[]=ReadFile(billsFilePath,[])
+//     res.send(billsData)
+// })
 
-//endpoint to get single bill edit page data
-app.get("/bills/edit/:id/data",(req,res)=>{
-    let id=req.params.id
-    console.log(`data  for billsID:${id} received`);
+// //endpoint to get single bill edit page data
+// app.get("/bills/edit/:id/data",(req,res)=>{
+//     let id=req.params.id
+//     console.log(`data  for billsID:${id} received`);
 
-    let billsData:BillsData[]=ReadFile(billsFilePath,[])
+//     let billsData:BillsData[]=ReadFile(billsFilePath,[])
 
-    let entryData=billsData.find(item=>item.id===id)
-    res.send(entryData||{})
-})
+//     let entryData=billsData.find(item=>item.id===id)
+//     res.send(entryData||{})
+// })
 
-//endpoint to save an edited  bill entry
-app.patch("/bills/edit/:id/save",(req,res)=>{
-    let id=req.params.id
-    console.log({message:`Save request for ${id} received`})
+// //endpoint to save an edited  bill entry
+// app.patch("/bills/edit/:id/save",(req,res)=>{
+//     let id=req.params.id
+//     console.log({message:`Save request for ${id} received`})
     
-    let editedBillData={...req.body,id};
+//     let editedBillData={...req.body,id};
 
-    let allBillsData=ReadFile<BillsData[]>(billsFilePath,[])
+//     let allBillsData=ReadFile<BillsData[]>(billsFilePath,[])
 
-    let entryToEdit=allBillsData.find(item=>item.id===id);
-    if(!entryToEdit){
-        res.send();
-        return;
-    }
+//     let entryToEdit=allBillsData.find(item=>item.id===id);
+//     if(!entryToEdit){
+//         res.send();
+//         return;
+//     }
 
-    Object.keys(editedBillData).forEach(key=>{
-        entryToEdit[key]=editedBillData[key]
-    })
+//     Object.keys(editedBillData).forEach(key=>{
+//         entryToEdit[key]=editedBillData[key]
+//     })
 
-    fs.writeFileSync(billsFilePath,JSON.stringify(allBillsData))
-    res.send({message:"bill entry edited successfully"});
-})
+//     fs.writeFileSync(billsFilePath,JSON.stringify(allBillsData))
+//     res.send({message:"bill entry edited successfully"});
+// })
 
-//endpoint to get single bill edit page
-app.get("/bills/edit/:id",(req,res)=>{
-    let html=fs.readFileSync("frontend/bills/edit/index.html");
-    res.setHeader("Content-Type","text/html")
-    res.send(html);
-})
+// //endpoint to get single bill edit page
+// app.get("/bills/edit/:id",(req,res)=>{
+//     let html=fs.readFileSync("frontend/bills/edit/index.html");
+//     res.setHeader("Content-Type","text/html")
+//     res.send(html);
+// })
 
-//endpoint to delete a single bill entry
-app.delete("/bills/edit/:id",(req,res)=>{
-    console.log({message:"delete request"})
-    let id=req.params.id;
-    let allBillsData:BillsData[]=ReadFile(billsFilePath,[]);
-    //remove the item with the indicated id
-    let filteredData=allBillsData.filter(item=>item.id!==id);
-    //save the edited bills entries
-    fs.writeFileSync(billsFilePath,JSON.stringify(filteredData))
-    res.send({message:"bill entry deleted successfully"});
-})
+// //endpoint to delete a single bill entry
+// app.delete("/bills/edit/:id",(req,res)=>{
+//     console.log({message:"delete request"})
+//     let id=req.params.id;
+//     let allBillsData:BillsData[]=ReadFile(billsFilePath,[]);
+//     //remove the item with the indicated id
+//     let filteredData=allBillsData.filter(item=>item.id!==id);
+//     //save the edited bills entries
+//     fs.writeFileSync(billsFilePath,JSON.stringify(filteredData))
+//     res.send({message:"bill entry deleted successfully"});
+// })
 
 
 
-// Endpoint to handle bill form submission
-app.post('/bills/new/save', (req, res) => {
-    const billsEntry:BillsData = req.body
-    console.log({body:req.body})
+// // Endpoint to handle bill form submission
+// app.post('/bills/new/save', (req, res) => {
+//     const billsEntry:BillsData = req.body
+//     console.log({body:req.body})
 
-    let historyData=ReadFile<BillsData[]>(billsFilePath,[])
-    //append the new data receive int he http body
-    historyData.push(billsEntry)
+//     let historyData=ReadFile<BillsData[]>(billsFilePath,[])
+//     //append the new data receive int he http body
+//     historyData.push(billsEntry)
 
-    fs.writeFileSync(billsFilePath,JSON.stringify(historyData))
-    res.send({message:"bills saved successfully"});
-});
+//     fs.writeFileSync(billsFilePath,JSON.stringify(historyData))
+//     res.send({message:"bills saved successfully"});
+// });
 
 
 app.listen(port, () => {

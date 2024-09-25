@@ -12,7 +12,7 @@ export default function RouteBills(app:Express){
     app.get("/bills/list",(req,res)=>{
         console.log("bills list requested".green)
         let billsData:BillsData[]=ReadFile(billsFilePath,[]);
-        console.log({billsData})
+        // console.log({billsData})
         res.send(billsData)
     })
 
@@ -58,6 +58,7 @@ export default function RouteBills(app:Express){
         console.log("body " .yellow, req.body)
         
         let editedData:BillsData={...req.body,id};
+        console.log(editedData);
 
         let allbillsData=ReadFile<BillsData[]>(billsFilePath,[]);
         // console.log({allbillsData})

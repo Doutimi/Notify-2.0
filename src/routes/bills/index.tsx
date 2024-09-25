@@ -5,11 +5,12 @@ import dayjs from "dayjs";
 import type { BillsData } from "@/types";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { appServerURl } from "@/address";
 
 
 async function FetchEntries(){
-  let data=await Fetch<BillsData[]>(`http://127.0.0.1:3000/bills/list`);
-  return data
+  let data=await Fetch<BillsData[]>(`${appServerURl}/bills/list`);
+  return data 
 
 //let data=data.sort((a,b)=>{
 //   let dateA=new Date(a.date)

@@ -4,6 +4,7 @@ import { Input } from '@/components/Input';
 import { Link } from "@tanstack/react-router";
 import type { FormEvent } from "react";
 import "../bills.css";
+import { appServerURl } from "@/address";
 
 
 const HandleSubmit = async(e: FormEvent<HTMLFormElement>) => {
@@ -14,7 +15,7 @@ const HandleSubmit = async(e: FormEvent<HTMLFormElement>) => {
   data.id=id
   console.log(data);
 
-  let response = await fetch("http://127.0.0.1:3000/bills/new",{
+  let response = await fetch(`${appServerURl}/bills/new`,{
     method:"POST",
     body:JSON.stringify(data),
     headers:{
